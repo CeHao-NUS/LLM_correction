@@ -8,6 +8,7 @@ class BaseExpParser:
         # 2. terminal state_dict, terminal_images
         # 3. initial goal, delta_goal, final_goal
         
+        task = exp_results['task']
         states_init = exp_results['states_init']
         images_init = exp_results['images_init'] # list of image paths
         states_final = exp_results['states_final']
@@ -27,6 +28,7 @@ class BaseExpParser:
         final_goal_str = str(final_goal)
         
         prompt = f"""
+        Task description: {task}.
         The initial states are: {states_init}. The final states are {states_final}.
         The goal from planner is {goal}. The change of goal from compensator is {delta_goal}. So the final goal is {final_goal}.
         The first {len_images_init} images are initial states; the following {len_images_final} images are final states.

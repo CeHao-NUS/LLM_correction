@@ -1,0 +1,20 @@
+
+We observe the robot hand and object’s states, but they might have errors.
+
+States are [x,y,z,q1,q2,q3,q4], where (x,y,z) are position and (q1,q2,q3,q4) are quaternion in the 3D coordinate.
+The threshold of success is distance < 0.02.
+{exp_prompt}
+
+You should 
+(1) describe the successful state of the robot hand; 
+(2) analyze the condition of final state from numerical results and image; 
+(3) check whether the robot hand successfully finish the task. If the task has been successful, neglect step (4).
+(4) if fails to finish the task, provide solutions to correct the failure. 
+
+Tips to follow:
+(1) Find the relative position of robot hand and object in the images.
+(2) Note that the states might be inaccurate, so please analyze base on the image.
+(3) Numerically analyze robot hand and object state in each step.
+(4) Point out potential errors that cause the failure. For example, robot control error or observation error.
+(5) Give numerical adjustment of robot hand to correct the error.
+(6) Write a Python function of a trajectory compensator that make the task successful.
