@@ -1,11 +1,13 @@
 from src.llm.openai.completor_openai import OpenAICompletor
 import base64
 import requests
+from openai import OpenAI
 
 class OpenAICompletorVision(OpenAICompletor):
 
     def __init__(self, api_key):
         self.messages = []
+        self.client = OpenAI(api_key=api_key)
         self.headers = {
         "Content-Type": "application/json",
         "Authorization": f"Bearer {api_key}"
@@ -26,14 +28,30 @@ class OpenAICompletorVision(OpenAICompletor):
         self.messages.append({'role':'user', 'content':content})
 
     def _get_completion(self):
-        payload = {
-        "model": "gpt-4-vision-preview",
-        "messages": self.messages,
-        "max_tokens": 500,
-        "temperature": 0
-        }
-        response = requests.post("https://api.openai.com/v1/chat/completions", headers=self.headers, json=payload)
-        return response.json()['choices'][0]['message']['content']
+        response = self.client.chat.completions.create(
+        model = 'gpt-4-vision-preview',
+        messages = self.messages,
+        temperature = 0,
+        max_tokens=4096,
+        )
+        print(response.usage)
+        return response.choices[0].message.content
+        # print(type(response))
+
+        # print(response.choices[0].message.content)
+
+
+    # def _get_completion(self):
+    #     payload = {
+    #     "model": "gpt-4-vision-preview",
+    #     "messages": self.messages,
+    #     "max_tokens": 4000,
+    #     "temperature": 0
+    #     }
+    #     response = requests.post("https://api.openai.com/v1/chat/completions", headers=self.headers, json=payload)
+    #     print(response.json())
+    #     print(response.json()['usage'])
+    #     return response.json()['choices'][0]['message']['content']
 
 def encode_image(image_path):
   with open(image_path, "rb") as image_file:

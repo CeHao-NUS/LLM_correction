@@ -2,19 +2,25 @@
 We observe the robot hand and object’s states, but they might have errors.
 
 States are [x,y,z,q1,q2,q3,q4], where (x,y,z) are position and (q1,q2,q3,q4) are quaternion in the 3D coordinate.
-The threshold of success is distance < 0.02.
+The threshold of success is hand-object distance < 0.02.
 {exp_prompt}
 
-You should 
+You should follow the following steps:
 (1) describe the successful state of the robot hand; 
-(2) analyze the condition of final state from numerical results and image; 
-(3) check whether the robot hand successfully finish the task. If the task has been successful, neglect step (4).
-(4) if fails to finish the task, provide solutions to correct the failure. 
 
-Tips to follow:
-(1) Find the relative position of robot hand and object in the images.
-(2) Note that the states might be inaccurate, so please analyze base on the image.
-(3) Numerically analyze robot hand and object state in each step.
-(4) Point out potential errors that cause the failure. For example, robot control error or observation error.
-(5) Give numerical adjustment of robot hand to correct the error.
-(6) Write a Python function of a trajectory compensator that make the task successful.
+(2) analyze the condition of final state from numerical results and image; 
+    -(2.1) Find the relative position of robot hand and object in the images.
+    -(2.2) Note that the states might be inaccurate, so please analyze base on the image. Please specify the meaning of each image.
+    -(2.3) Numerically analyze robot hand and object state in each step. 
+
+(3) check whether the robot hand successfully finish the task. If the task has been successful, neglect step (4).
+    -(3.1) Calculate the distance and compare it with thresold to judge the success.
+    -(3.2) Use the analysis of images in step (2) to judge if the task is successful.
+    -(3.3) Write the result as ```'success': True/False```
+
+(4) if fails to finish the task, provide better 'change of goal' and the 'final goal' to correct the failure. 
+    -(4.1) Give numerical adjustment of robot hand to correct the error.
+    -(4.2) Point out potential errors that cause the failure. For example, robot control error or observation error.
+    -(4.3) You can write equation to help calculate the better 'final goal'.
+    -(4.4) Write the results as ```'change of goal': [xx, xx, ...]```
+

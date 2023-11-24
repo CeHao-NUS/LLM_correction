@@ -34,11 +34,26 @@ class BaseWorker:
         
         # 2. formulate user
         user_prompt = self.user_prompt.format(exp_prompt=exp_prompt)
-        # print(user_prompt)
+        user_prompt  = user_prompt + '''
+        Please answer the questions (1) and (2)
+        '''
         
         # 3. reflect by llm
-        assist_results = self.llm.answer_with_image(user_prompt, images)
+        prompt2 = '''
+        Please answer the following questions (3)
+        '''
+        prompt3 = '''
+        Please answer the following questions (4)
+        '''
+        assist_results1 = self.llm.answer_with_image(user_prompt, images)
+        assist_results2 = self.llm.answer(prompt2)
+        assist_results3 = self.llm.answer(prompt3)
+        
+        all_results = assist_results1 + "========== \n \n" + assist_results2 + "========== \n \n" + assist_results3
+        
         # print(assist_results)
+        mkdir('./src/temp/assist_results')
+        write_txt_file('./src/temp/assist_results/assist_results.txt', all_results)
         
         # 4. parse assist results
         
@@ -51,7 +66,9 @@ class BaseWorker:
         self.user_prompt = read_txt_file(self._hp.user_prompt)
         
         # llm
-        self.llm = self._hp.llm(api_key = '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')
+        # api_key = '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'
+        api_key = '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'
+        self.llm = self._hp.llm(api_key=api_key)
         self.llm.add_system(self.system_prompt)
         
         # exp_parser
@@ -64,16 +81,11 @@ class BaseWorker:
 
 if __name__ == "__main__":
     worker = BaseWorker()
-    exp_results = {
-        'task': "grasp the red cube with gripper hand.",
-        'states_init': {'hand': [0.002, -0.002, 0.165, -0.007, 1. , -0.024, -0.006], 'cube':[0.074, 0.037, 0.02 , -0.539, -0. , 0. , 0.843]},
-        'images_init': ['./src/temp/images/initial.png'],
-        'states_final': {'hand': [0.085, 0.045, 0.058, -0.011, 0.999, -0.044, 0.018], 'cube':[0.074, 0.042, 0.066, -0.564, -0.004, -0.005, 0.825]},
-        'images_final': ['./src/temp/images/succ.png'],
-        'goal': [0.074, 0.037, 0.02 , -0.539, -0. , 0. , 0.843],
-        'delta_goal': [0, 0, 0, 0, 0, 0, 0],
-        'final_goal': [0.074, 0.037, 0.02 , -0.539, -0. , 0. , 0.843],
-    }
+    
+    from src.llm.worker.store import exp_results_base, exp_results_test
+    # exp_results = exp_results_base
+    exp_results = exp_results_test
+    
     worker.reflection(exp_results)
     
     # python src/llm/worker/base_worker.py
