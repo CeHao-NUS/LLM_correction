@@ -39,6 +39,8 @@ class Main:
             res = self.planner.step(goal, delta_goal, final_goal)
             exp_results = self.planner.get_exp_results()
             
+            print('success', res)
+            
             # 4. update
             self.llm.reflection(obs, exp_results)
             

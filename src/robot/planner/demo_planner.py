@@ -19,7 +19,7 @@ class DemoPlanner:
     def reset(self):
         self.exp_results = {'task': 'grasp the cube Franka Panda robot hand.'}
         
-        obs, reset_info = self.env.reset(seed=np.random.randint(0, 100000, 1))
+        obs, reset_info = self.env.reset()
         self.env.setup_planner()
         self.env.render()
         self.env.disable_use_point_cloud()
@@ -36,19 +36,30 @@ class DemoPlanner:
         
     def plan_goal(self, obs):
         goal = np.hstack((obs['object'][:3], obs['robot'][3:]))
+        
+        # object_pose_to_base, robot_ee_pose = self.env.get_object_ee_pose()
+        # pos = object_pose_to_base.p
+        # quat = robot_ee_pose.q
+        # pickup_pose = np.hstack((pos, quat))
+    
+        # goal = pickup_pose
         return goal
         
     def step(self, goal, delta_goal, final_goal):
         
         
         # 1. move to above
+        self.env.open_gripper()
         final_goal1 = final_goal.copy()
         final_goal1[2] = final_goal1[2] + 0.2
-        
         res = self.env.move_to_pose(final_goal1)
+        
         # 2. move to final
-        res = self.env.move_to_pose(final_goal)
+        final_goal2 = final_goal.copy()
+        res = self.env.move_to_pose(final_goal2)
         self.env.close_gripper()
+        
+        res = self.env.check_grasp()
         
         self.exp_results.update({
             'states_final': self._get_base_obs(),
@@ -58,7 +69,7 @@ class DemoPlanner:
             'final_goal': final_goal,
         })
         
-        return True
+        return res
     
     def get_exp_results(self):
         return self.exp_results
@@ -79,7 +90,7 @@ class DemoPlanner:
             image = Image.fromarray(rgb)
             
             # generate dir, and save
-            base_dir = './src/temp/images/'
+            base_dir = './temp/images/'
             final_dir = os.path.join(base_dir, name + '_' + camera + ".png")
             image.save(final_dir)
             images.append(final_dir)

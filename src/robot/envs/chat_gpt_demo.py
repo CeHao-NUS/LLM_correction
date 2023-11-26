@@ -35,10 +35,13 @@ class PickCubeDemo(PickCubeEnv):
     # =============================================================
     def _load_actors(self):
         # Load objects
+        # cube_color = (np.random.uniform(0.1, 0.99),
+        #             np.random.uniform(0.1, 0.99),
+        #             np.random.uniform(0.1, 0.99))
+        
+        cube_color = (0, 1, 1)
         self.obj = self._build_cube(half_size=self.cube_half_size,
-                                    color=(np.random.uniform(0.1, 0.99),
-                                           np.random.uniform(0.1, 0.99),
-                                           np.random.uniform(0.1, 0.99)))
+                                    color=cube_color)
         self.goal_site = self._build_sphere_site(radius=0.01)
         # -------------------------------------------------------------------------- #
         # Load static scene

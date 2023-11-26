@@ -66,6 +66,8 @@ def run(env):
     res = env.move_to_pose(pickup_pose)
     env.close_gripper()
     
+    res = env.check_grasp()
+    print('success', res)
     
     # object_pose_to_base, robot_ee_pose = env.get_object_ee_pose()
     # print('states_final', object_pose_to_base, robot_ee_pose)
