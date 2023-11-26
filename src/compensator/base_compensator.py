@@ -14,7 +14,7 @@ class BaseCompensator:
     
 class DummyCompensator(BaseCompensator):
     def __init__(self):
-        self.delta_goal = [0, 0, 0]
+        self.delta_goal = np.zeros(7)
         super().__init__()
     
     def compensate(self, state, goal):

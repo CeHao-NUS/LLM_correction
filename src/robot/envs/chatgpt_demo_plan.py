@@ -101,6 +101,7 @@ class Pick_Cube_plan(PickCubeDemo):
             if result['status'] != "Success":
                 print(result['status'])
                 return -1
+            
         self.follow_path(result)
         return 0
 

@@ -51,10 +51,11 @@ def run(env):
     quat = robot_ee_pose.q
     pickup_pose = np.hstack((pos, quat))
     
-    print('states_init', object_pose_to_base, robot_ee_pose)
-    print('goal', pickup_pose)
-    print('delta_goal', [])
-    save_images(env, 'init')
+    # print('states_init', object_pose_to_base, robot_ee_pose)
+    # print('goal', pickup_pose)
+    # print('delta_goal', [])
+    # save_images(env, 'init')
+    print('pickup_pose', pickup_pose)
     
     # formal movement
     pickup_pose[2] = pickup_pose[2] + 0.2
@@ -66,14 +67,13 @@ def run(env):
     env.close_gripper()
     
     
-    object_pose_to_base, robot_ee_pose = env.get_object_ee_pose()
-    print('states_final', object_pose_to_base, robot_ee_pose)
-    save_images(env, 'final')
+    # object_pose_to_base, robot_ee_pose = env.get_object_ee_pose()
+    # print('states_final', object_pose_to_base, robot_ee_pose)
+    # save_images(env, 'final')
     
     
     # final state
     # rgb, mask = env.get_object_mask(obs)
-
 
 
 if __name__ == "__main__":
