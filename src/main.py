@@ -29,35 +29,33 @@ class Main:
         
         for idx in range(1):
             
-            sample = True
+            sample = False
             
             if sample:
                 # 1. reset
-                obs, goal = self.planner.reset()
+                import numpy as np
+                bias = np.array([0.0, 0.05, 0.0, 0.0, 0.0, 0.0, 0.0])
+                
+                obs, goal = self.planner.reset(bias=None)
                 
                 # 2. compensate
                 delta_goal = self.compensator.compensate(obs, goal)
                 final_goal = goal + delta_goal
                 
                 # 3. step
-                res = self.planner.step(goal, delta_goal, final_goal)
+                res = self.planner.step(goal, delta_goal, final_goal, bias=bias)
                 exp_results = self.planner.get_exp_results()
                 
                 print('success', res)
                 write_pickle_file('./temp/exp_results.pkl', exp_results)
             
             
-            exp_results = read_pickle_file('./temp/exp_results.pkl')
+                exp_results = read_pickle_file('./temp/exp_results.pkl')
+                
+                # 4. update
+                self.llm.reflection(exp_results)
             
-            # 4. update
-            self.llm.reflection(exp_results)
-            
-            # # 5. check
-            # if res == False:
-            #     print('failed')
-            #     break
-            # else:
-            #     print('success')
+            # 5. parse
     
     
     def _setup_configs(self):

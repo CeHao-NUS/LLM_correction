@@ -40,7 +40,11 @@ class DemoPlanner:
         goal = np.hstack((obs['object'][:3], obs['robot'][3:]))
         return goal
         
-    def step(self, goal, delta_goal, final_goal):
+    def step(self, goal, delta_goal, final_goal, bias=None):
+        ori_final_goal = final_goal.copy()
+        
+        if bias is not None:
+            final_goal = final_goal + bias
         
         # 1. move to above
         self.env.open_gripper()
@@ -60,7 +64,7 @@ class DemoPlanner:
             'images_final': self.get_images('final'),
             'goal': goal,
             'delta_goal': delta_goal,
-            'final_goal': final_goal,
+            'final_goal': ori_final_goal,
         })
         
         return res

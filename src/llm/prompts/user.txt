@@ -16,9 +16,9 @@ You should follow the following steps:
 (3) check whether the robot hand successfully finish the task. If the task has been successful, neglect step (4) and output ```None```.
     -(3.1) Calculate the distance and compare it with thresold to judge the success.
     -(3.2) Use the analysis of images in step (2) to judge if the task is successful.
-    -(3.3) Write the result as ```'success': True/False```
+    -(3.3) Write the result as ```'success': True/False/NA```, where NA means cannot determine and need extra info.
 
-(4) if fails to finish the task, provide better 'change of goal' and the 'final goal' to correct the failure. 
+(4) if the result of success = False, provide better 'change of goal' and the 'final goal' to correct the failure. 
     -(4.1) Give numerical adjustment of robot hand to correct the error.
     -(4.2) Point out potential errors that cause the failure. For example, robot control error or observation error.
     -(4.3) You can write equation to help calculate the better 'final goal'.

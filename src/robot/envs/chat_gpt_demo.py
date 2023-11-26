@@ -82,11 +82,13 @@ class PickCubeDemo(PickCubeEnv):
         return cam_cfg
 
     def _register_cameras(self):
-        pose = look_at([0.0, 0.5, 0.8], [0.0, 0, 0.1])
+        # pose = look_at([0.0, 0.5, 0.8], [0.0, 0, 0.1])
+        pose = look_at([0.0, 0.5, 0.3], [0.0, 0, 0.1])
         camera_1 = CameraConfig(
             "head_camera", pose.p, pose.q, 1280, 720, np.pi / 2, 0.01, 10)
 
-        pose = look_at([0.3, 0.5, 0.8], [0.0, 0, 0.1])
+        # pose = look_at([0.3, 0.5, 0.8], [0.0, 0, 0.1])
+        pose = look_at([0.5, 0.0, 0.3], [0.0, 0, 0.1])
         camera_2 = CameraConfig(
             "right_camera", pose.p, pose.q, 1280, 720, np.pi / 2, 0.01, 10)
         return [camera_1, camera_2]
