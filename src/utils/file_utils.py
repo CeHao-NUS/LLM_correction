@@ -2,6 +2,7 @@
 import json
 import yaml
 import os
+import pickle
 
 # ================ JSON ================
 # JSON file reader
@@ -40,9 +41,19 @@ def write_yaml_file(file_path, data):
     with open(file_path, 'w') as yaml_file:
         yaml.safe_dump(data, yaml_file)
 
+# ================ pickle ================
+# pickle file reader
+def read_pickle_file(file_path):
+    with open(file_path, 'rb') as pickle_file:
+        return pickle.load(pickle_file)
+    
+# pickle file writer
+def write_pickle_file(file_path, data):
+    with open(file_path, 'wb') as pickle_file:
+        pickle.dump(data, pickle_file)
+
 # ================ dir ================
 def mkdir(dir_path):
     if not os.path.exists(dir_path):
         os.makedirs(dir_path)
-
 

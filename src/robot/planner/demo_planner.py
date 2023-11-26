@@ -16,7 +16,9 @@ class DemoPlanner:
         self.env = env
         
         
-    def reset(self):
+    def reset(self, bias=None):
+        self.bias = bias
+        
         self.exp_results = {'task': 'grasp the cube Franka Panda robot hand.'}
         
         obs, reset_info = self.env.reset()
@@ -36,17 +38,9 @@ class DemoPlanner:
         
     def plan_goal(self, obs):
         goal = np.hstack((obs['object'][:3], obs['robot'][3:]))
-        
-        # object_pose_to_base, robot_ee_pose = self.env.get_object_ee_pose()
-        # pos = object_pose_to_base.p
-        # quat = robot_ee_pose.q
-        # pickup_pose = np.hstack((pos, quat))
-    
-        # goal = pickup_pose
         return goal
         
     def step(self, goal, delta_goal, final_goal):
-        
         
         # 1. move to above
         self.env.open_gripper()
@@ -76,7 +70,10 @@ class DemoPlanner:
 
     def _get_base_obs(self):
         object_pose_to_base, robot_ee_pose = self.env.get_object_ee_pose()
-        return {'robot': np.hstack((robot_ee_pose.p, robot_ee_pose.q)), 'object': np.hstack((object_pose_to_base.p, object_pose_to_base.q))}
+        obs = {'robot': np.hstack((robot_ee_pose.p, robot_ee_pose.q)), 'object': np.hstack((object_pose_to_base.p, object_pose_to_base.q))}
+        if self.bias is not None:
+            obs['object'] += self.bias
+        return obs
     
     def get_images(self, name):
         obs = self.env.get_obs()

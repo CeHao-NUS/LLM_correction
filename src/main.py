@@ -28,21 +28,29 @@ class Main:
     def train(self):
         
         for idx in range(1):
-            # 1. reset
-            obs, goal = self.planner.reset()
             
-            # 2. compensate
-            delta_goal = self.compensator.compensate(obs, goal)
-            final_goal = goal + delta_goal
+            sample = True
             
-            # 3. step
-            res = self.planner.step(goal, delta_goal, final_goal)
-            exp_results = self.planner.get_exp_results()
+            if sample:
+                # 1. reset
+                obs, goal = self.planner.reset()
+                
+                # 2. compensate
+                delta_goal = self.compensator.compensate(obs, goal)
+                final_goal = goal + delta_goal
+                
+                # 3. step
+                res = self.planner.step(goal, delta_goal, final_goal)
+                exp_results = self.planner.get_exp_results()
+                
+                print('success', res)
+                write_pickle_file('./temp/exp_results.pkl', exp_results)
             
-            print('success', res)
+            
+            exp_results = read_pickle_file('./temp/exp_results.pkl')
             
             # 4. update
-            self.llm.reflection(obs, exp_results)
+            self.llm.reflection(exp_results)
             
             # # 5. check
             # if res == False:

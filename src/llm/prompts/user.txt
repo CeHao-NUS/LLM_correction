@@ -13,7 +13,7 @@ You should follow the following steps:
     -(2.2) Note that the states might be inaccurate, so please analyze base on the image. Please specify the meaning of each image.
     -(2.3) Numerically analyze robot hand and object state in each step. 
 
-(3) check whether the robot hand successfully finish the task. If the task has been successful, neglect step (4).
+(3) check whether the robot hand successfully finish the task. If the task has been successful, neglect step (4) and output ```None```.
     -(3.1) Calculate the distance and compare it with thresold to judge the success.
     -(3.2) Use the analysis of images in step (2) to judge if the task is successful.
     -(3.3) Write the result as ```'success': True/False```
@@ -22,5 +22,5 @@ You should follow the following steps:
     -(4.1) Give numerical adjustment of robot hand to correct the error.
     -(4.2) Point out potential errors that cause the failure. For example, robot control error or observation error.
     -(4.3) You can write equation to help calculate the better 'final goal'.
-    -(4.4) Write the results as ```'change of goal': [xx, xx, ...]```
+    -(4.4) Write the results as ```'change of goal': [xx, xx, ...]```. Please calculate exact numbers.
 

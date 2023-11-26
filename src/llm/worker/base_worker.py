@@ -52,8 +52,8 @@ class BaseWorker:
         all_results = assist_results1 + "========== \n \n" + assist_results2 + "========== \n \n" + assist_results3
         
         # print(assist_results)
-        mkdir('./src/temp/assist_results')
-        write_txt_file('./src/temp/assist_results/assist_results.txt', all_results)
+        mkdir('./temp/assist_results')
+        write_txt_file('./temp/assist_results/assist_results.txt', all_results)
         
         # 4. parse assist results
         
@@ -66,8 +66,7 @@ class BaseWorker:
         self.user_prompt = read_txt_file(self._hp.user_prompt)
         
         # llm
-        # api_key = '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'
-        api_key = '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'
+        api_key = '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'
         self.llm = self._hp.llm(api_key=api_key)
         self.llm.add_system(self.system_prompt)
         
