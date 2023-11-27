@@ -2,7 +2,7 @@
 We observe the robot hand and object’s states, but they might have errors.
 
 States are [x,y,z,q1,q2,q3,q4], where (x,y,z) are position and (q1,q2,q3,q4) are quaternion in the 3D coordinate.
-The threshold of success is hand-object distance < 0.02.
+The threshold of success is hand-object distance < 0.02. But distance > threshold could also be successful.
 {exp_prompt}
 
 You should follow the following steps:

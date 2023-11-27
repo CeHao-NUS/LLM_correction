@@ -27,9 +27,9 @@ class Main:
     
     def train(self):
         
-        for idx in range(1):
-            
-            sample = 0
+        for idx in range(5):
+            print(f'============================= iter {idx} ==============================')
+            sample = 1
             reflect = 1
             
             self.llm.clear()
@@ -43,13 +43,14 @@ class Main:
                 
                 # 2. compensate
                 delta_goal = self.compensator.compensate(obs, goal)
+                print('change of goal', delta_goal)
                 final_goal = goal + delta_goal
                 
                 # 3. step
                 res = self.planner.step(goal, delta_goal, final_goal, bias=bias)
                 exp_results = self.planner.get_exp_results()
                 
-                print('success', res)
+                print('env success checker', res)
                 new_path_dir = save_path_time(EXP_DIR)
                 write_pickle_file(EXP_DIR, exp_results)
                 write_pickle_file(new_path_dir, exp_results)

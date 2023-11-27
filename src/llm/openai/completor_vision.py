@@ -34,7 +34,7 @@ class OpenAICompletorVision(OpenAICompletor):
         temperature = 0,
         max_tokens=4096,
         )
-        print(response.usage)
+        # print(response.usage)
         return response.choices[0].message.content
         # print(type(response))
 

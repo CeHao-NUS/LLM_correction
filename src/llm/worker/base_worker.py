@@ -41,6 +41,7 @@ class BaseWorker:
         # 3. reflect success
         checker_success = False
         while not checker_success:
+            print('reflect success')
             llm_results = self.reflect_success()
             if 'success' in llm_results:
                 if llm_results['success'] in [True, False]:
@@ -56,6 +57,7 @@ class BaseWorker:
             
             checker_improve = False
             while not checker_improve:
+                print('reflect improve')
                 llm_results = self.reflect_improve()
                 if 'change of goal' in llm_results:
                     checker_improve = True
@@ -107,6 +109,7 @@ class BaseWorker:
             llm_results = ast.literal_eval(result_dict_string)
         except:
             print('ast.literal_eval failed')
+            self.save()
             llm_results = {}
         return llm_results
         

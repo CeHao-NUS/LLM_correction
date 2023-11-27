@@ -35,7 +35,7 @@ def save_path_time(file_path):
         print('new_directory', new_directory)
     
     new_file_path = os.path.join(new_directory, get_current_time() + '_' + filename)
-    print('new_file_path', new_file_path)
+    # print('new_file_path', new_file_path)
     return new_file_path
 
 # ================ JSON ================
