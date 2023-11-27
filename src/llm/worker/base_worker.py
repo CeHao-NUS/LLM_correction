@@ -43,7 +43,7 @@ class BaseWorker:
         Please answer the following questions (3)
         '''
         prompt3 = '''
-        Please answer the following questions (4)
+        Please answer the following questions (4) (5)
         '''
         assist_results1 = self.llm.answer_with_image(user_prompt, images)
         assist_results2 = self.llm.answer(prompt2)

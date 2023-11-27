@@ -27,9 +27,10 @@ class Main:
     
     def train(self):
         
-        for idx in range(1):
+        for idx in range(5):
             
             sample = False
+            reflect = False
             
             if sample:
                 # 1. reset
@@ -50,14 +51,42 @@ class Main:
                 write_pickle_file('./temp/exp_results.pkl', exp_results)
             
             
-                exp_results = read_pickle_file('./temp/exp_results.pkl')
-                
-                # 4. update
-                self.llm.reflection(exp_results)
+            # ========================================================================================
+            exp_results = read_pickle_file('./temp/exp_results.pkl')
+            done_reflection = False
             
-            # 5. parse
-    
-    
+            while not done_reflection:
+                if reflect:
+                    # 4. reflection
+                    self.llm.reflection(exp_results)
+                
+                # 5. parse assist results
+                assit = read_txt_file('./temp/assist_results/assist_results.txt')
+                
+                # a temporay parser
+                import re, ast
+                pattern = r"```(.*?)```"
+                result_dict_string = re.search(pattern, assit, re.DOTALL).group(1)
+                llm_results = ast.literal_eval(result_dict_string)
+                    
+                # print(llm_results)
+                
+                # 6. check and update compensator
+                if 'success' in llm_results.keys():
+                    if llm_results['success']:
+                        print('task is successful')
+                        break
+                    else:
+                        print('task is failed')
+                        if 'change of goal' in llm_results.keys():
+                            self.compensator.update(exp_results['states_init'], exp_results['goal'], llm_results['change of goal'])
+                            print('compensator is updated, change of goal is: {}'.format(llm_results['change of goal']))
+                            done_reflection = True
+                        else:
+                            print('compensator is not updated, try again')
+                else:
+                    print('did not get success info, try again')
+            
     def _setup_configs(self):
         # setup configs
         pass
