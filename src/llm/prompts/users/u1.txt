@@ -1,0 +1,14 @@
+
+We observe the robot hand and object’s states, but they might have errors.
+
+States are [x,y,z,q1,q2,q3,q4], where (x,y,z) are position and (q1,q2,q3,q4) are quaternion in the 3D coordinate.
+The threshold of success is hand-object distance < 0.02.
+{exp_prompt}
+
+You should follow the following steps:
+(1) describe the successful state of the robot hand; 
+
+(2) analyze the condition of final state from numerical results and image; 
+    -(2.1) Find the relative position of robot hand and object in the images.
+    -(2.2) Note that the states might be inaccurate, so please analyze base on the image. Please specify the meaning of each image.
+    -(2.3) Numerically analyze robot hand and object state in each step. 

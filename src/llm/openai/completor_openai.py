@@ -8,6 +8,9 @@ class OpenAICompletor:
         self.messages = []
         self.client = OpenAI(api_key=api_key)
 
+    def clear(self):
+        self.messages = []
+
     def answer(self, question):
         self._add_question(question)
         ans = self._get_completion()

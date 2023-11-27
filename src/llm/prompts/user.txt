@@ -13,19 +13,21 @@ You should follow the following steps:
     -(2.2) Note that the states might be inaccurate, so please analyze base on the image. Please specify the meaning of each image.
     -(2.3) Numerically analyze robot hand and object state in each step. 
 
-(3) check whether the robot hand successfully finish the task. If the task has been successful, neglect step (4) and output ```None```.
+(3) check whether the robot hand successfully finish the task. If the task has been successful, neglect step (4).
     -(3.1) Calculate the distance and compare it with thresold to judge the success.
     -(3.2) Use the analysis of images in step (2) to judge if the task is successful.
+    -(3.3) Report result as a dictionary in triple backtics:
+    ```
+        {{'success': True/False/None,}} (# where True means successful, False means unsuccessful, None means unknown. do not show content in the bracket)
+    ```
 
-(4) if the result of success = False, provide better 'change of goal' and the 'final goal' to correct the failure. 
+(4) provide better 'change of goal' and the 'final goal' to correct the failure. 
     -(4.1) Give numerical adjustment of robot hand to correct the error.
     -(4.2) Point out potential errors that cause the failure. For example, robot control error or observation error.
     -(4.3) You can write equation to help calculate the better 'change of goal'. It should have same dimension with 'goal'.
-
-(5)  summarize all results as a dictionary in triple backtics:
+    -(4.4) Report the result as a dictionary in triple backtics:
     ```
     {{
-        'success': True/False/NA, (# there True means succesful, False means unsuccessful, NA means unknown. do not show content in the bracket)
-        'change of goal': [], (# a list that has same dimension with 'goal'. do not show content in the bracket)
+        'change of goal': [], (# a list that has same dimension with 'goal'. If success=Ture, report empty []. do not show content in the bracket)
     }}
     ```

@@ -1,0 +1,10 @@
+(4) provide better 'change of goal' and the 'final goal' to correct the failure. 
+    -(4.1) Give numerical adjustment of robot hand to correct the error.
+    -(4.2) Point out potential errors that cause the failure. For example, robot control error or observation error.
+    -(4.3) You can write equation to help calculate the better 'change of goal'. It should have same dimension with 'goal'.
+    -(4.4) Report the result as a dictionary in triple backtics:
+    ```
+    {{
+        'change of goal': [], (# a list that has same dimension with 'goal'. If success=Ture, report empty []. do not show content in the bracket)
+    }}
+    ```

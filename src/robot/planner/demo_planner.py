@@ -2,6 +2,7 @@ import gymnasium as gym
 import numpy as np
 from PIL import Image
 import os
+from src.utils.file_utils import *
 
 class DemoPlanner:
     
@@ -91,9 +92,11 @@ class DemoPlanner:
             image = Image.fromarray(rgb)
             
             # generate dir, and save
-            base_dir = './temp/images/'
+            base_dir = IMAGE_BASE_DIR
             final_dir = os.path.join(base_dir, name + '_' + camera + ".png")
+            new_file_dir = save_path_time(final_dir)
             image.save(final_dir)
+            image.save(new_file_dir)
             images.append(final_dir)
             
         return images

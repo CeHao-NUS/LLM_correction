@@ -27,10 +27,12 @@ class Main:
     
     def train(self):
         
-        for idx in range(5):
+        for idx in range(1):
             
-            sample = False
-            reflect = False
+            sample = 0
+            reflect = 1
+            
+            self.llm.clear()
             
             if sample:
                 # 1. reset
@@ -48,44 +50,30 @@ class Main:
                 exp_results = self.planner.get_exp_results()
                 
                 print('success', res)
-                write_pickle_file('./temp/exp_results.pkl', exp_results)
-            
+                new_path_dir = save_path_time(EXP_DIR)
+                write_pickle_file(EXP_DIR, exp_results)
+                write_pickle_file(new_path_dir, exp_results)
             
             # ========================================================================================
-            exp_results = read_pickle_file('./temp/exp_results.pkl')
-            done_reflection = False
-            
-            while not done_reflection:
-                if reflect:
-                    # 4. reflection
-                    self.llm.reflection(exp_results)
+            exp_results = read_pickle_file(EXP_DIR)
+
+            if reflect:
+                # 4. reflection
+                llm_results = self.llm.reflection(exp_results)
+                print('llm_results', llm_results)
                 
-                # 5. parse assist results
-                assit = read_txt_file('./temp/assist_results/assist_results.txt')
+            if llm_results['success'] == True:
+                print('task is successful')
+                break
+            elif llm_results['success'] == False:
+                # 5. update compensator
+                self.compensator.update(exp_results['states_init'], exp_results['goal'], llm_results['change of goal'])
+            elif llm_results['success'] == None:
+                print('need more info')
+                break
                 
-                # a temporay parser
-                import re, ast
-                pattern = r"```(.*?)```"
-                result_dict_string = re.search(pattern, assit, re.DOTALL).group(1)
-                llm_results = ast.literal_eval(result_dict_string)
-                    
-                # print(llm_results)
-                
-                # 6. check and update compensator
-                if 'success' in llm_results.keys():
-                    if llm_results['success']:
-                        print('task is successful')
-                        break
-                    else:
-                        print('task is failed')
-                        if 'change of goal' in llm_results.keys():
-                            self.compensator.update(exp_results['states_init'], exp_results['goal'], llm_results['change of goal'])
-                            print('compensator is updated, change of goal is: {}'.format(llm_results['change of goal']))
-                            done_reflection = True
-                        else:
-                            print('compensator is not updated, try again')
-                else:
-                    print('did not get success info, try again')
+
+
             
     def _setup_configs(self):
         # setup configs
