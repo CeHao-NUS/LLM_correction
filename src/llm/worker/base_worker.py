@@ -40,7 +40,9 @@ class BaseWorker:
         
         # 3. reflect success
         checker_success = False
-        while not checker_success:
+        max_iter = 5
+        now_iter = 0
+        while (not checker_success) and (now_iter < max_iter):
             print('reflect success')
             llm_results = self.reflect_success()
             if 'success' in llm_results:
@@ -50,6 +52,7 @@ class BaseWorker:
                     print('llm success is unknown, try again')
             else:
                 print('llm success failed, try again')
+            now_iter += 1
         self.llm_results.update(llm_results)
 
         # 4. reflect improve
@@ -121,7 +124,7 @@ class BaseWorker:
         self.user_prompt = read_txt_file(self._hp.user_prompt)
         
         # llm
-        api_key = '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'
+        api_key = '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'
         self.llm = self._hp.llm(api_key=api_key)
         self.llm.add_system(self.system_prompt)
         

@@ -37,7 +37,7 @@ class Main:
             if sample:
                 # 1. reset
                 import numpy as np
-                bias = np.array([0.0, 0.05, 0.0, 0.0, 0.0, 0.0, 0.0])
+                bias = np.array([0.1, 0.1, 0.1, 0.0, 0.0, 0.0, 0.0])
                 
                 obs, goal = self.planner.reset(bias=None)
                 
